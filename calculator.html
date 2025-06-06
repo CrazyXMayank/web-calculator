@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Calculator</title>
+    <!-- Tailwind CSS CDN for responsive styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+    </style>
+</head>
+<body class="selection:bg-indigo-300 selection:text-indigo-900">
+    <!-- Calculator Container -->
+    <div class="calculator bg-white p-6 rounded-3xl shadow-xl border-t border-gray-100 max-w-sm w-full transition-all duration-300 ease-in-out transform hover:scale-[1.01] hover:shadow-2xl">
+        <!-- Display Screen -->
+        <div class="display bg-gray-800 text-white text-right p-5 mb-6 rounded-2xl break-all min-h-[80px] flex flex-col items-end justify-end overflow-hidden shadow-inner">
+            <span id="history-display" class="text-xl font-light text-gray-400 max-w-full overflow-hidden whitespace-nowrap mb-1"></span>
+            <span id="main-display" class="text-5xl font-light text-gray-50 max-w-full overflow-hidden whitespace-nowrap">0</span>
+        </div>
+        <!-- Buttons Grid -->
+        <div class="grid grid-cols-4 gap-3">
+            <button class="btn operator bg-gray-200 text-gray-800 text-2xl font-medium p-4 rounded-xl shadow-md hover:bg-gray-300 active:bg-gray-400 transition-colors duration-200" data-value="AC">AC</button>
+            <button class="btn operator bg-gray-200 text-gray-800 text-2xl font-medium p-4 rounded-xl shadow-md hover:bg-gray-300 active:bg-gray-400 transition-colors duration-200" data-value="+/-">+/-</button>
+            <button class="btn operator bg-gray-200 text-gray-800 text-2xl font-medium p-4 rounded-xl shadow-md hover:bg-gray-300 active:bg-gray-400 transition-colors duration-200" data-value="pow">x<sup>y</sup></button>
+            <button class="btn operator bg-gray-200 text-gray-800 text-2xl font-medium p-4 rounded-xl shadow-md hover:bg-gray-300 active:bg-gray-400 transition-colors duration-200" data-value="sqrt">√</button>
+            <button class="btn operator bg-orange-500 text-white text-3xl font-medium p-4 rounded-xl shadow-lg hover:bg-orange-600 active:bg-orange-700 transition-colors duration-200" data-value="/">÷</button>
+            <button class="btn number bg-gray-100 text-gray-800 text-2xl font-semibold p-4 rounded-xl shadow-sm hover:bg-gray-200 active:bg-gray-300 transition-colors duration-200" data-value="7">7</button>
+            <button class="btn number bg-gray-100 text-gray-800 text-2xl font-semibold p-4 rounded-xl shadow-sm hover:bg-gray-200 active:bg-gray-300 transition-colors duration-200" data-value="8">8</button>
+            <button class="btn number bg-gray-100 text-gray-800 text-2xl font-semibold p-4 rounded-xl shadow-sm hover:bg-gray-200 active:bg-gray-300 transition-colors duration-200" data-value="9">9</button>
+            <button class="btn operator bg-orange-500 text-white text-3xl font-medium p-4 rounded-xl shadow-lg hover:bg-orange-600 active:bg-orange-700 transition-colors duration-200" data-value="*">×</button>
+            <button class="btn number bg-gray-100 text-gray-800 text-2xl font-semibold p-4 rounded-xl shadow-sm hover:bg-gray-200 active:bg-gray-300 transition-colors duration-200" data-value="4">4</button>
+            <button class="btn number bg-gray-100 text-gray-800 text-2xl font-semibold p-4 rounded-xl shadow-sm hover:bg-gray-200 active:bg-gray-300 transition-colors duration-200" data-value="5">5</button>
+            <button class="btn number bg-gray-100 text-gray-800 text-2xl font-semibold p-4 rounded-xl shadow-sm hover:bg-gray-200 active:bg-gray-300 transition-colors duration-200" data-value="6">6</button>
+            <button class="btn operator bg-orange-500 text-white text-3xl font-medium p-4 rounded-xl shadow-lg hover:bg-orange-600 active:bg-orange-700 transition-colors duration-200" data-value="-">−</button>
+            <button class="btn number bg-gray-100 text-gray-800 text-2xl font-semibold p-4 rounded-xl shadow-sm hover:bg-gray-200 active:bg-gray-300 transition-colors duration-200" data-value="1">1</button>
+            <button class="btn number bg-gray-100 text-gray-800 text-2xl font-semibold p-4 rounded-xl shadow-sm hover:bg-gray-200 active:bg-gray-300 transition-colors duration-200" data-value="2">2</button>
+            <button class="btn number bg-gray-100 text-gray-800 text-2xl font-semibold p-4 rounded-xl shadow-sm hover:bg-gray-200 active:bg-gray-300 transition-colors duration-200" data-value="3">3</button>
+            <button class="btn operator bg-orange-500 text-white text-3xl font-medium p-4 rounded-xl shadow-lg hover:bg-orange-600 active:bg-orange-700 transition-colors duration-200" data-value="+">+</button>
+            <button class="btn number bg-gray-100 text-gray-800 text-2xl font-semibold p-4 rounded-xl shadow-sm hover:bg-gray-200 active:bg-gray-300 transition-colors duration-200 col-span-2" data-value="0">0</button>
+            <button class="btn number bg-gray-100 text-gray-800 text-2xl font-semibold p-4 rounded-xl shadow-sm hover:bg-gray-200 active:bg-gray-300 transition-colors duration-200" data-value=".">•</button>
+            <button class="btn operator bg-orange-500 text-white text-3xl font-medium p-4 rounded-xl shadow-lg hover:bg-orange-600 active:bg-orange-700 transition-colors duration-200" data-value="=">=</button>
+        </div>
+        <div class="text-center mt-6 text-gray-600 text-sm font-medium">
+            Created by Mayank
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const historyDisplay = document.getElementById('history-display');
+            const mainDisplay = document.getElementById('main-display');
+            const buttons = document.querySelectorAll('.btn');
+            let currentInput = '0';
+            let operator = null;
+            let previousInput = null;
+            let equalsPressed = false;
+            let expressionString = '';
+            function updateDisplay() {
+                historyDisplay.textContent = expressionString;
+                mainDisplay.textContent = currentInput;
+            }
+            function handleButtonClick(value) {
+                if (!isNaN(value) || value === '.') {
+                    if (equalsPressed) {
+                        currentInput = '0';
+                        expressionString = '';
+                        equalsPressed = false;
+                    }
+                    if (value === '.' && currentInput.includes('.')) {
+                        return;
+                    }
+                    if (currentInput === '0' && value !== '.') {
+                        currentInput = value;
+                    } else {
+                        currentInput += value;
+                    }
+                    if (operator === null) {
+                        expressionString = currentInput;
+                    } else {
+                        expressionString = `${previousInput} ${operatorSymbol(operator)} ${currentInput}`;
+                    }
+                } else if (['+', '-', '*', '/', 'pow'].includes(value)) {
+                    if (previousInput === null) {
+                        previousInput = parseFloat(currentInput);
+                    } else if (operator && !equalsPressed) {
+                        calculate();
+                        previousInput = parseFloat(currentInput);
+                    }
+                    operator = value;
+                    currentInput = '0';
+                    equalsPressed = false;
+                    expressionString = `${previousInput} ${operatorSymbol(operator)}`;
+                } else if (value === 'sqrt') {
+                    const num = parseFloat(currentInput);
+                    if (num >= 0) {
+                        currentInput = Math.sqrt(num).toString();
+                        expressionString = `√(${num})`;
+                        if (operator && previousInput !== null) {
+                            previousInput = parseFloat(currentInput);
+                            operator = null;
+                        }
+                    } else {
+                        currentInput = 'Error';
+                        expressionString = 'Error';
+                    }
+                    equalsPressed = true;
+                } else if (value === '=') {
+                    if (operator && previousInput !== null) {
+                        const originalPrevious = previousInput;
+                        const originalCurrent = parseFloat(currentInput);
+                        calculate();
+                        expressionString = `${originalPrevious} ${operatorSymbol(operator)} ${originalCurrent} = ${currentInput}`;
+                        operator = null;
+                        previousInput = null;
+                        equalsPressed = true;
+                    }
+                } else if (value === 'AC') {
+                    currentInput = '0';
+                    operator = null;
+                    previousInput = null;
+                    equalsPressed = false;
+                    expressionString = '';
+                } else if (value === '+/-') {
+                    currentInput = (parseFloat(currentInput) * -1).toString();
+                    if (operator === null) {
+                        expressionString = currentInput;
+                    } else {
+                        expressionString = `${previousInput} ${operatorSymbol(operator)} ${currentInput}`;
+                    }
+                }
+                updateDisplay();
+            }
+            function operatorSymbol(op) {
+                switch (op) {
+                    case '+': return '+';
+                    case '-': return '−';
+                    case '*': return '×';
+                    case '/': return '÷';
+                    case 'pow': return '^';
+                    default: return '';
+                }
+            }
+            function calculate() {
+                let result;
+                const prev = previousInput;
+                const current = parseFloat(currentInput);
+                switch (operator) {
+                    case '+': result = prev + current; break;
+                    case '-': result = prev - current; break;
+                    case '*': result = prev * current; break;
+                    case '/': result = current === 0 ? 'Error' : prev / current; break;
+                    case 'pow': result = Math.pow(prev, current); break;
+                    default: return;
+                }
+                currentInput = result.toString();
+                previousInput = parseFloat(currentInput);
+            }
+            buttons.forEach(button => {
+                button.addEventListener('click', () => {
+                    handleButtonClick(button.dataset.value);
+                });
+            });
+            updateDisplay();
+        });
+    </script>
+</body>
+</html>
